@@ -4,4 +4,3 @@ from rango import views
 app_name = 'rango'
 
 urlpatterns = [path('', views.index, name = 'index'),]
-#git
