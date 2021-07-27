@@ -2,6 +2,7 @@ import rango
 from django.shortcuts import render
 from django.http import HttpResponse
 
+
 #what users see on Index page
 def index(request):
     #constrcut a dictionary to pass to the template engine as its context
@@ -13,7 +14,8 @@ def index(request):
     #notes that the first parameter is the template we wish to use.
     return render(request,'rango/index.html', context=context_dic)
 
-#ch3 Exercises 
+#ch4 Exercises 
 #what users see on About page
 def about(request):
-    return HttpResponse("Rango says here is the about page. <a href='/rango/'>Index</a>") #ch3 ex. added a hyperlink to the index page
+    return render(request, 'rango/about.html')
+   # return HttpResponse("Rango says here is the about page. <a href='/rango/'>Index</a>") #ch3 ex. added a hyperlink to the index page

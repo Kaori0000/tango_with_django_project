@@ -15,7 +15,12 @@ import os
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates') # a variable that points to the templates directory
-STATIC_DIR = os.path.join(BASE_DIR, 'static') #a variable that points to the static directory 
+STATIC_DIR = os.path.join(BASE_DIR, 'static') # a variable that points to the static directory, for static files
+MEDIA_DIR = os.path.join(BASE_DIR, 'media') # a varibable that points to the where the media files should be stored, which is the <project root>/media/
+
+#the following 2 variables will be picked up by Django to set up media file hosting
+MEDIA_ROOT = MEDIA_DIR #tells Django where to look for media files that have been uploaded and stored
+MEDIA_URL = '/media/'#tells Django what URL to serve them from 
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
@@ -64,6 +69,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'django.template.context_processors.media',
             ],
         },
     },
