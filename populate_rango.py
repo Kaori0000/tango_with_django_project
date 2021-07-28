@@ -36,7 +36,7 @@ def populate():
         'url':'http://flask.pocoo.org'} ]
 
 
-    #cats = Categories
+    #cats = Categories, each ley represents the name of the category, values are the additional information relating to the category 
     cats = {
         'Python': {'pages': python_pages, 'views': 128, 'likes': 64},
         'Django': {'pages': django_pages, 'views':64, 'likes':32},
@@ -65,7 +65,7 @@ def add_page(cat, title, url, views=0):
     p.save()
     return p
    
-def add_cat(name, views, likes):
+def add_cat(name, views=0, likes=0):
     c = Category.objects.get_or_create(name=name, views = views, likes = likes)[0]
     c.views = views
     c.likes = likes
