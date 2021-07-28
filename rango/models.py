@@ -6,7 +6,8 @@ from django.db import models
 class Category(models.Model):
     #the class attribute name is made of chars with max length = 128, and it's unique 
     name = models.CharField(max_length=128, unique=True) 
-    
+    views = models.IntegerField(default=0)
+    likes = models.IntegerField(default=0)
     #adding a nested Meta class with verbose_name_plural attribute to fix the typo on the Django administraion interface
     class Meta: 
         verbose_name_plural = 'Categories'
