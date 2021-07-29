@@ -43,7 +43,7 @@ def index(request):
 #ch4 Exercises 
 #what users see on About page
 def about(request):
-    return render(request, 'rango/about.html')
+    return render(request, 'rango/about.html',{})
    # return HttpResponse("Rango says here is the about page. <a href='/rango/'>Index</a>") #ch3 ex. added a hyperlink to the index page
 
 
