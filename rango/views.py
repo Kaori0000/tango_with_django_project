@@ -107,7 +107,8 @@ def add_category(request):
    # Will handle the bad form, new form, or no form supplied cases.
    # Render the form with error messages (if any).
     return render(request, 'rango/add_category.html', {'form': form})
-
+    
+@login_required
 def add_page(request, category_name_slug):
     try:
         category = Category.objects.get(slug=category_name_slug)
