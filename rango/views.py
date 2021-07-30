@@ -9,6 +9,7 @@ from django.urls import reverse
 from rango.forms import UserForm, UserProfileForm
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from datetime import datetime
 
 
 
@@ -31,16 +32,16 @@ def index(request):
     context_dict['boldmessage'] = 'Crunchy, creamy, cookie, candy, cupcake!'
     context_dict['categories'] = category_list
     context_dict['pages'] = page_list
+    context_dict['visits'] = int(request.COOKIES.get('visits', '1'))
 
     #ch 10 set cookie
-    request.session.set_test_cookie()
+    #Obtain our Response object early so we can add cookie information.
+    response = render(request, 'rango/index.html', context=context_dict)
+    # Call the helper function to handle the cookies
+    visitor_cookie_handler(request, response)
 
-    # Render the response and send it back!
-    #return a rendered response to sent to the client.
-    #we make use of the short cut funcation to make our lives easier.
-    #notes that the first parameter is the template we wish to use.
-    return render(request, 'rango/index.html', context=context_dict)
-
+    # Return response back to the user, updating any cookies that need changed.
+    return response
     
 
     
@@ -50,11 +51,6 @@ def index(request):
 #ch4 Exercises 
 #what users see on About page
 def about(request):
-    #ch10 test cookie
-    if request.session.test_cookie_worked():
-        print("TEST COOKIE WORKED!")
-        request.session.delete_test_cookie()
-        
     return render(request, 'rango/about.html',{})
    # return HttpResponse("Rango says here is the about page. <a href='/rango/'>Index</a>") #ch3 ex. added a hyperlink to the index page
 
@@ -252,6 +248,30 @@ def user_logout(request):
     return redirect(reverse('rango:index'))
 
 
+#ch 10
+#a helper function
+def visitor_cookie_handler(request, response):
+    #Get the number of visits to the site.
+    #We use the COOKIES.get() function to obtain the visits cookie.
+    #If the cookie exists, the value returned is casted to an integer.
+    #If the cookie doesn't exist, then the default value of 1 is used.
+    visits = int(request.COOKIES.get('visits', '1'))
+
+    last_visit_cookie = request.COOKIES.get('last_visit', str(datetime.now()))
+    last_visit_time = datetime.strptime(last_visit_cookie[:-7],
+    '%Y-%m-%d %H:%M:%S')
+
+    #If it's been more than a day since the last visit...
+    if (datetime.now() - last_visit_time).days > 0:
+        visits = visits + 1
+        # Update the last visit cookie now that we have updated the count
+        response.set_cookie('last_visit', str(datetime.now()))
+    else:
+        # Set the last visit cookie
+        response.set_cookie('last_visit', last_visit_cookie)
+
+    # Update/set the visits cookie
+    response.set_cookie('visits', visits)
 
 
 
