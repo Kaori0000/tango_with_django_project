@@ -32,7 +32,9 @@ def index(request):
     context_dict['categories'] = category_list
     context_dict['pages'] = page_list
 
-    
+    #ch 10 set cookie
+    request.session.set_test_cookie()
+
     # Render the response and send it back!
     #return a rendered response to sent to the client.
     #we make use of the short cut funcation to make our lives easier.
@@ -48,6 +50,11 @@ def index(request):
 #ch4 Exercises 
 #what users see on About page
 def about(request):
+    #ch10 test cookie
+    if request.session.test_cookie_worked():
+        print("TEST COOKIE WORKED!")
+        request.session.delete_test_cookie()
+        
     return render(request, 'rango/about.html',{})
    # return HttpResponse("Rango says here is the about page. <a href='/rango/'>Index</a>") #ch3 ex. added a hyperlink to the index page
 
@@ -107,7 +114,7 @@ def add_category(request):
    # Will handle the bad form, new form, or no form supplied cases.
    # Render the form with error messages (if any).
     return render(request, 'rango/add_category.html', {'form': form})
-    
+
 @login_required
 def add_page(request, category_name_slug):
     try:
